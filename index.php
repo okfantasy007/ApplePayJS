@@ -1,5 +1,5 @@
 <?php
-require_once ('/your/path/to/applepay_includes/apple_pay_conf.php');
+require_once ('apple_pay_conf.php');
 ?>
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -75,7 +75,7 @@ document.getElementById("applePay").onclick = function(evt) {
 	 
 		var shippingCost = 0;
 		
-			 switch(shippingIdentifier) {
+        switch(shippingIdentifier) {
 		case 'domestic_std':
 			shippingCost = 3;
 			break;
