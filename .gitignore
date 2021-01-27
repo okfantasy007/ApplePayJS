@@ -3,8 +3,8 @@
 # production
 /.vscode
 
-# misc
-.DS_Store
-
-/coverage
 .idea
+
+.htaccess
+
+nginx.htaccess
