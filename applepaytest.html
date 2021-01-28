@@ -61,7 +61,8 @@
                 "label": "Demo (Card is not charged)",
                 "type": "final",
                 "amount": "1.99"
-            }
+            },
+            "applicationCode": '122'
         }
     ;
     console.log('window.navigator.userAgent', window.navigator.userAgent);
@@ -99,7 +100,7 @@
                     // AJAX call to backend to validate merchant goes here
                     // response should be JSON-encoded
                     $.ajax({
-                        url : 'https://applepay.wondershare.cc/ApplePayJS/apple_pay_comm.php?u=' + event.validationURL,
+                        url : window.location.protocol + '//' + window.location.host + '/ApplePayJS/apple_pay_comm.php?u=' + event.validationURL,
                         success : function(response){
 //                            console.log('apple_pay_comm.php response', response);
 //                            console.log('apple_pay_comm.php response', JSON.stringify(response));
@@ -132,8 +133,8 @@
             // once payment is authorized, it will return an object that contains the payment token for your processor
             PaymentSession.onpaymentauthorized = function(event){
                 console.log(event);
-                const payment = event.payment;
-                const token = payment.token;
+                var payment = event.payment;
+                var token = payment.token;
                 console.log('token', token);
                 // add some logic here to work with your payment processor
 

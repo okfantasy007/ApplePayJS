@@ -12,7 +12,7 @@ define('PRODUCTION_CERTIFICATE_KEY_PASS', '*#06#171049');
 
 //define('PRODUCTION_DOMAINNAME', $_SERVER["HTTP_HOST"]); //you can leave this line as-is too, it will take the domain from the server you run it on e.g. shop.mydomain.com or mydomain.com
 // if the line above isn't working for you, replace it with the one below, updating it for your own domain name
- define('PRODUCTION_DOMAINNAME', 'applepay.wondershare.cc');
+ define('PRODUCTION_DOMAINNAME', 'applepay.iskysoft.com');
 
 
 define('PRODUCTION_CURRENCYCODE', 'GBP');	// https://en.wikipedia.org/wiki/ISO_4217
