@@ -2,17 +2,31 @@
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
 
     <title></title>
 
     <style type="text/css">
-        * { margin: 0; padding: 0; list-style: none; }
-        body{ text-align: center; padding: 60px; font-family: -apple-system, BlinkMacSystemFont; }
-        h1{ margin: 2em 0; font-size: 3em; }
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        body {
+            text-align: center;
+            padding: 60px;
+            font-family: -apple-system, BlinkMacSystemFont;
+        }
+
+        h1 {
+            margin: 2em 0;
+            font-size: 3em;
+        }
 
         .apple-pay-button {
             display: inline-block;
@@ -21,9 +35,11 @@
             cursor: pointer;
             -webkit-appearance: -apple-pay-button;
         }
+
         .apple-pay-button-black {
             -apple-pay-button-style: black;
         }
+
         .apple-pay-button-white {
             -apple-pay-button-style: white;
         }
@@ -32,7 +48,9 @@
             -apple-pay-button-style: white-outline;
         }
 
-        .hidden{ display: none; }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -69,20 +87,20 @@
 
 
     // does this browser support Apple Pay
-    if ( window.ApplePaySession !== undefined) {
+    if (window.ApplePaySession !== undefined) {
         // use the merchant provided by Apple in your developer account
         var promise = ApplePaySession.canMakePaymentsWithActiveCard('merchant.sandbox.wondershare.cloudservice');
 
         // verify that Apple Pay is accepted
-        promise.then(function(canMakePayments){
-            if ( canMakePayments ) {
+        promise.then(function (canMakePayments) {
+            if (canMakePayments) {
                 $('.js-apple-pay-button').removeClass('hidden');
             } else {
                 console.log('Apple Pay is not supported.');
             }
         });
 
-        $('.js-apple-pay-button').on('click', function(e){
+        $('.js-apple-pay-button').on('click', function (e) {
             // preventing form submission
             e.preventDefault();
 
@@ -92,15 +110,15 @@
             // merchant validation
             // ApplePay documentation: https://developer.apple.com/documentation/applepayjs/providing_merchant_validation
             // Example PHP file: https://github.com/norfolkmustard/ApplePayJS/blob/master/apple_pay_comm.php
-            PaymentSession.onvalidatemerchant = function(event){
+            PaymentSession.onvalidatemerchant = function (event) {
                 console.log('onvalidatemerchant');
                 console.log('onvalidatemerchant validationURL', event.validationURL);
-                var promise = new Promise(function(resolve, reject){
+                var promise = new Promise(function (resolve, reject) {
                     // AJAX call to backend to validate merchant goes here
                     // response should be JSON-encoded
                     $.ajax({
-                        url : 'https://applepay.wondershare.cc/ApplePayJS/apple_pay_comm.php?u=' + event.validationURL,
-                        success : function(response){
+                        url: window.location.origin + '/ApplePayJS/apple_pay_comm.php?u=' + event.validationURL,
+                        success: function (response) {
 //                            console.log('apple_pay_comm.php response', response);
 //                            console.log('apple_pay_comm.php response', JSON.stringify(response));
                             try {
@@ -109,7 +127,7 @@
                                 console.error(e);
                             }
                         },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
                             console.error("Status: " + textStatus);
                             console.error("Error: " + errorThrown);
                         }
@@ -117,20 +135,24 @@
                 });
 
                 // once the merchant is validated, the payment sheet is displayed
-                promise.then(function(merchantSession){
+                promise.then(function (merchantSession) {
                     console.log('onvalidatemerchant merchantSession', merchantSession);
                     PaymentSession.completeMerchantValidation(merchantSession);
                 });
             };
 
             // payment method selection
-            PaymentSession.onpaymentmethodselected = function(event){
-                PaymentSession.completePaymentMethodSelection({ type: 'final', label: 'Total', amount: 10.00 }, [{ type: 'final', label: 'Subtotal', amount: 10.00 }]);
+            PaymentSession.onpaymentmethodselected = function (event) {
+                PaymentSession.completePaymentMethodSelection({
+                    type: 'final',
+                    label: 'Total',
+                    amount: 10.00
+                }, [{type: 'final', label: 'Subtotal', amount: 10.00}]);
             };
 
             // payment method authorization
             // once payment is authorized, it will return an object that contains the payment token for your processor
-            PaymentSession.onpaymentauthorized = function(event){
+            PaymentSession.onpaymentauthorized = function (event) {
                 console.log(event);
                 const payment = event.payment;
                 const token = payment.token;
@@ -141,7 +163,7 @@
                 PaymentSession.completePayment(ApplePaySession.STATUS_SUCCESS);
             };
 
-            PaymentSession.oncancel = function(event) {
+            PaymentSession.oncancel = function (event) {
                 console.log(event);
                 console.log('oncancel');
             };
