@@ -79,8 +79,7 @@
                 "label": "Demo (Card is not charged)",
                 "type": "final",
                 "amount": "1.99"
-            },
-            "applicationCode": '122'
+            }
         }
     ;
     console.log('window.navigator.userAgent', window.navigator.userAgent);
@@ -120,8 +119,8 @@
                     $.ajax({
                         url: window.location.origin + '/ApplePayJS/apple_pay_comm.php?u=' + event.validationURL,
                         success: function (response) {
-//                            console.log('apple_pay_comm.php response', response);
-//                            console.log('apple_pay_comm.php response', JSON.stringify(response));
+                            // console.log('apple_pay_comm.php response', response);
+                            // console.log('apple_pay_comm.php response', JSON.stringify(response));
                             try {
                                 resolve(JSON.parse(response));
                             } catch (e) {
