@@ -78,7 +78,7 @@
             "total": {
                 "label": "Demo (Card is not charged)",
                 "type": "final",
-                "amount": "1.99"
+                "amount": "10.00"
             }
         }
     ;
@@ -145,7 +145,7 @@
             PaymentSession.onpaymentmethodselected = function (event) {
                 PaymentSession.completePaymentMethodSelection({
                     type: 'final',
-                    label: 'Total',
+                    label: 'Demo (Card is not charged)',
                     amount: 10.00
                 }, [{type: 'final', label: 'Subtotal', amount: 10.00}]);
             };
@@ -154,6 +154,7 @@
             // once payment is authorized, it will return an object that contains the payment token for your processor
             PaymentSession.onpaymentauthorized = function (event) {
                 console.log(event);
+                console.log('event.payment', event.payment);
                 var payment = event.payment;
                 var token = payment.token;
                 console.log('token', token);
